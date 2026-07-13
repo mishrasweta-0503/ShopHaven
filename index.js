@@ -3,6 +3,11 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 const db = require('./src/config/db');
+const authRouter = require('./src/routes/auth');
+
+app.use(express.json());
+
+app.use('/api/auth', authRouter);
 
 app.get('/', (req, res) => {
   res.send('ecoomerce app is running!');
