@@ -36,7 +36,27 @@ const registerUser = async (req, res) => {
   }
 };
 
+const loginUser = async(req,res) => {
+    try {
+        const {email,password} = req.body;
+        const userCheck = await db.query('SELECT * FROM users WHERE email = $1', [email]); //looking up the user
+        if(userCheck.rows.length === 0){
+            return res.status(401).json({error:'Invalid email or password'})
+        }
+        const user = userCheck.rows[0];
+        const passwordCheck = await bcrypt.compare(password,userCheck.rows[0].password);
+        if(!passwordCheck){
+            return res.json(401).json({error:'Passwords dont match'})
+        }
+        delete user.password;
+        return res.status(200).json({ success: true, message: 'User authenticated successfully',data:user });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Server error during login' });
+    }
+}
+
 // Export the controller method so your router file can see it
 module.exports = {
-  registerUser,
+  registerUser,loginUser
 };
