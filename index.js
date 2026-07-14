@@ -7,6 +7,7 @@ const authRouter = require('./src/routes/auth');
 const productRouter = require('./src/routes/products');
 const userRouter = require('./src/routes/users');
 const cartRouter = require('./src/routes/cart');
+const ordersRouter = require('./src/routes/orders');
 
 
 app.use(express.json());
@@ -15,6 +16,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
 app.use('/api/cart', cartRouter);
+app.use('/api/orders', ordersRouter);
 
 app.get('/', (req, res) => {
   res.send('ecoomerce app is running!');
